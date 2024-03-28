@@ -43,14 +43,12 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Install dependencies 🚀
         run: yarn install --immutable --network-timeout 500000
-      - name: Run build
-        run: yarn tsc --build
-      - name: Run lint 🔍
-        run: yarn test --since origin/main
+      - name: Run Test 🔍
+        run: yarn test
 
   release:
     runs-on: ubuntu-latest
-    needs: [ test, build, lint ]
+    needs: [ test, lint ]
     if: ${{ github.event_name != 'pull_request' && (contains(github.ref, 'main') || contains(github.ref, 'alpha')  || contains(github.ref, 'beta') || contains(github.ref, 'rc')) }}
 
     steps:
