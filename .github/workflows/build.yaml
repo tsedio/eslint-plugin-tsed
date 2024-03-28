@@ -2,9 +2,9 @@ name: Build & Release
 
 on:
   push:
-    branches: [production, alpha, beta, rc]
+    branches: [main, alpha, beta, rc]
   pull_request:
-    branches: [production]
+    branches: [main]
     types: [opened, synchronize, closed]
 
 concurrency:
