@@ -1,0 +1,98 @@
+{
+  "name": "@tsed/eslint-plugin",
+  "version": "1.0.0",
+  "description": "Eslint rules for Ts.ED projects",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "clean": "rimraf ./dist/",
+    "build:ci": "yarn build",
+    "build": "yarn clean && mkdir ./dist && tsc --project tsconfig.build.json",
+    "lint": "eslint -c .eslintrc.js --ext .ts src --no-error-on-unmatched-pattern --no-ignore",
+    "test": "NODE_OPTIONS=\"--max-old-space-size=8192\" npx jest --runInBand --colors --reporters=default --no-cache --coverage=false --silent=false -c jest.config.ts",
+    "prettier": "prettier --write src/*",
+    "prepare": "husky",
+    "release": "npx semantic-release",
+    "semantic-release": "semantic-release"
+  },
+  "release": {
+    "branches": [
+      "main"
+    ]
+  },
+  "publishConfig": {
+    "provenance": true
+  },
+  "homepage": "https://github.com/tsedio/eslint-plugin-tsed",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tsedio/eslint-plugin-tsed"
+  },
+  "files": [
+    "dist",
+    "package.json",
+    "README.md"
+  ],
+  "author": {
+    "name": "Romain Lenzotti",
+    "url": "https://github.com/romakita"
+  },
+  "dependencies": {
+    "@typescript-eslint/scope-manager": "7.2.0",
+    "@typescript-eslint/utils": "7.2.0",
+    "eslint-module-utils": "2.8.1",
+    "reflect-metadata": "0.2.1"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "19.2.1",
+    "@commitlint/config-conventional": "19.1.0",
+    "@semantic-release/changelog": "6.0.3",
+    "@semantic-release/exec": "6.0.3",
+    "@types/eslint": "8.56.6",
+    "@types/jest": "29.5.12",
+    "@types/node": "20.11.30",
+    "@typescript-eslint/eslint-plugin": "7.2.0",
+    "@typescript-eslint/parser": "7.2.0",
+    "@typescript-eslint/rule-tester": "7.2.0",
+    "eslint": "8.57.0",
+    "eslint-config-prettier": "9.1.0",
+    "husky": "9.0.11",
+    "jest": "29.7.0",
+    "jest-create-mock-instance": "2.0.0",
+    "jest-junit": "16.0.0",
+    "lint-staged": "15.2.2",
+    "prettier": "3.2.5",
+    "semantic-release": "23.0.5",
+    "ts-jest": "29.1.2",
+    "ts-node": "10.9.2",
+    "typescript": "5.4.3"
+  },
+  "peerDependencies": {
+    "@typescript-eslint/parser": "^7.0.0",
+    "eslint": "^8.56.0"
+  },
+  "keywords": [
+    "eslint",
+    "eslintplugin",
+    "eslint-plugin",
+    "tsed",
+    "linter",
+    "lint",
+    "style"
+  ],
+  "license": "ISC",
+  "lint-staged": {
+    "packages/**/*.{ts,tsx,js,jsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "**/*.{css,json,md,yml,yaml}": "prettier --write"
+  },
+  "packageManager": "yarn@4.1.1"
+}
