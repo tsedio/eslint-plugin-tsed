@@ -32,7 +32,7 @@
   "homepage": "https://github.com/tsedio/eslint-plugin-tsed",
   "repository": {
     "type": "git",
-    "url": "https://github.com/tsedio/eslint-plugin-tsed"
+    "url": "git+https://github.com/tsedio/eslint-plugin-tsed.git"
   },
   "files": [
     "dist",
