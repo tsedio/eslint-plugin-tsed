@@ -1,4 +1,4 @@
-process.env.SEMANTIC_RELEASE_PACKAGE = "Eslint plugin Ts.ED";
+process.env.SEMANTIC_RELEASE_PACKAGE = 'Eslint plugin Ts.ED'
 
 export default {
   branch: 'main',
@@ -12,7 +12,8 @@ export default {
         assets: [
           'package.json',
           'yarn.lock'
-        ]
+        ],
+        'message': 'chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}'
       }
     ],
     [

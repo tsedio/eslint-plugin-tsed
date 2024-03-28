@@ -17,7 +17,7 @@
     "lint": "eslint -c .eslintrc.js --ext .ts src --no-error-on-unmatched-pattern --no-ignore",
     "test": "jest --reporters=default --no-cache --coverage",
     "prettier": "prettier --write src/*",
-    "prepare": "husky",
+    "prepare": "is-ci || husky",
     "release": "semantic-release",
     "release:dryRun": "semantic-release --dry-run"
   },
@@ -25,9 +25,6 @@
     "branches": [
       "main"
     ]
-  },
-  "publishConfig": {
-    "provenance": true
   },
   "homepage": "https://github.com/tsedio/eslint-plugin-tsed",
   "repository": {
@@ -54,6 +51,7 @@
     "@semantic-release/changelog": "6.0.3",
     "@semantic-release/exec": "6.0.3",
     "@types/eslint": "8.56.6",
+    "@types/is-ci": "^3",
     "@types/jest": "29.5.12",
     "@types/node": "20.11.30",
     "@typescript-eslint/eslint-plugin": "7.2.0",
@@ -62,6 +60,7 @@
     "eslint": "8.57.0",
     "eslint-config-prettier": "9.1.0",
     "husky": "9.0.11",
+    "is-ci": "^3.0.1",
     "jest": "29.7.0",
     "jest-create-mock-instance": "2.0.0",
     "jest-junit": "16.0.0",
@@ -94,5 +93,10 @@
     ],
     "**/*.{css,json,md,yml,yaml}": "prettier --write"
   },
-  "packageManager": "yarn@4.1.1"
+  "packageManager": "yarn@4.1.1",
+  "publishConfig": {
+    "provenance": false,
+    "access": "public",
+    "tag": "latest"
+  }
 }
