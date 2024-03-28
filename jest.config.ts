@@ -18,13 +18,15 @@ const config: Config.InitialOptions = {
     "**/src/**/*.ts",
     "!**/node_modules/**",
     "!**/*.test.data.ts",
+    "!src/fixtures/**",
+    "!**/index.ts"
   ],
   coverageThreshold: {
     global: {
-      statements: 0,
-      branches: 0,
-      functions: 0,
-      lines: 0,
+      statements: 89.34,
+      branches: 81.17,
+      functions: 95.83,
+      lines: 89.34,
     },
   },
   reporters: [

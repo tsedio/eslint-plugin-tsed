@@ -1,37 +1,6 @@
 import {TSESTree} from "@typescript-eslint/utils";
 
 export const typedTokenHelpers = {
-  // isEnumType(type: ts.Type) {
-  //   // if for some reason this returns true...
-  //   if (tsutils.isTypeFlagSet(type, ts.TypeFlags.Enum)) return true;
-  //   if (tsutils.isTypeFlagSet(type, ts.TypeFlags.EnumLike)) return true;
-  //
-  //   // it's not an enum type if it's an enum literal type
-  //   if (
-  //     tsutils.isTypeFlagSet(type, ts.TypeFlags.EnumLiteral) &&
-  //     !type.isUnion()
-  //   )
-  //     return false;
-  //
-  //   // get the symbol and check if its value declaration is an enum declaration
-  //   const symbol = type.getSymbol();
-  //   if (symbol == null) return false;
-  //
-  //   const {valueDeclaration} = symbol;
-  //   return (
-  //     valueDeclaration != null &&
-  //     valueDeclaration.kind === ts.SyntaxKind.EnumDeclaration
-  //   );
-  // },
-  // isOptionalPropertyValue(node: TSESTree.PropertyDefinition): boolean {
-  //   const isUndefinedType =
-  //     (
-  //       node.typeAnnotation?.typeAnnotation as TSESTree.TSUnionType
-  //     )?.types?.find((t) => t.type === AST_NODE_TYPES.TSUndefinedKeyword) !==
-  //     undefined;
-  //
-  //   return node.optional || isUndefinedType || false;
-  // },
   /**
    * Checks if an import is an import of the given decorator name
    * @param imp
@@ -139,23 +108,6 @@ export const typedTokenHelpers = {
       }) ?? []
     );
   },
-  /**
-   * Checks if the decorator is the IsEnum decorator
-   * @param decorator
-   */
-  // decoratorIsIsEnum(decorator: TSESTree.Decorator): boolean {
-  //   const decoratorName = this.getDecoratorName(decorator);
-  //
-  //   return decoratorName === "IsEnum";
-  // },
-  /** Checks if the decorator is the IsObject decorator
-   * @param decorator
-   */
-  // decoratorIsIsObject(decorator: TSESTree.Decorator): boolean {
-  //   const decoratorName = this.getDecoratorName(decorator);
-  //
-  //   return decoratorName === "IsObject";
-  // },
   /**
    * Gets the name of a decorator
    * Returns null if no name is found

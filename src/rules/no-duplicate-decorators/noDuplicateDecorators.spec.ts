@@ -47,7 +47,14 @@ describe("noDuplicateDecorators", () => {
           {
             messageId: "no-duplicate-decorators",
           },
-        ]
+        ],
+        output: `
+        @Controller()
+        class MyClass {
+            @Controller()
+            myProperty: string;
+
+        }`,
       },
       {
         code: `
@@ -63,6 +70,14 @@ describe("noDuplicateDecorators", () => {
             messageId: "no-duplicate-decorators",
           },
         ],
+        output: `
+        @Controller()
+        class MyClass {
+            
+            @Controller()
+            myProperty: string;
+
+        }`,
       },
       {
         code: `
@@ -79,7 +94,14 @@ describe("noDuplicateDecorators", () => {
             messageId: "no-duplicate-decorators",
           },
         ],
-        output:""
+        output: `
+        @Controller()
+        class MyClass {
+            
+            @Validated()
+            myProperty: string;
+
+        }`,
       },
     ],
   });

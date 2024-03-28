@@ -18,11 +18,11 @@ export const rule = createRule<NoDuplicateDecoratorsOptions, "no-duplicate-decor
     docs: {
       description:
         "Some decorators should only be used once on a property or class. This rule enforces that.",
-      requiresTypeChecking: false,
+      requiresTypeChecking: false
     },
     messages: {
       "no-duplicate-decorators":
-        "You have listed the same decorator more than once. Was this intentional?",
+        "You have listed the same decorator more than once. Was this intentional?"
     },
     schema: [
       {
@@ -35,20 +35,20 @@ export const rule = createRule<NoDuplicateDecoratorsOptions, "no-duplicate-decor
             minItems: 0,
             items: {
               type: "string" as JSONSchema4TypeName,
-              minLength: 1,
-            },
-          },
-        },
-      },
+              minLength: 1
+            }
+          }
+        }
+      }
     ],
     fixable: "code",
     hasSuggestions: true,
-    type: "suggestion",
+    type: "suggestion"
   },
   defaultOptions: [
     {
-      customList: new Array<string>(),
-    },
+      customList: new Array<string>()
+    }
   ],
 
   create(context) {
@@ -86,36 +86,31 @@ export const rule = createRule<NoDuplicateDecoratorsOptions, "no-duplicate-decor
               return (
                 decoratorName && decoratorNames.indexOf(decoratorName) !== index
               );
-            },
+            }
           );
 
           if (
             duplicateDecorators.length > 0 &&
             decoratorsToValidate.some((decoratorToValidate) =>
-              duplicateDecorators.includes(decoratorToValidate),
+              duplicateDecorators.includes(decoratorToValidate)
             )
           ) {
             context.report({
               node: node,
               messageId: "no-duplicate-decorators",
-              suggest: [
-                {
-                  messageId: "no-duplicate-decorators",
-                  * fix(fixer) {
-                    for (const decoratorName of new Set(decoratorNames)) {
-                      const decoratorToRemove = findPropertyDecorator(node, decoratorName);
-                      if (decoratorToRemove) {
-                        yield fixer.remove(decoratorToRemove);
-                      }
-                    }
-                  },
-                },
-              ],
+              * fix(fixer) {
+                for (const decoratorName of new Set(decoratorNames)) {
+                  const decoratorToRemove = findPropertyDecorator(node, decoratorName);
+                  if (decoratorToRemove) {
+                    yield fixer.remove(decoratorToRemove);
+                  }
+                }
+              }
             });
           }
         }
-      },
+      }
     };
-  },
+  }
 });
 
