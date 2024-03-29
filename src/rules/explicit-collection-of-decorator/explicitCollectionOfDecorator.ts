@@ -95,7 +95,7 @@ function create(context: Readonly<RuleContext<RULES, []>>) {
             context.report({
               node,
               messageId,
-              fix: fix && ((fixer) => fix(fixer, node, context)),
+              fix: fix && ((fixer) => fix(fixer, node, decoratorsStatus)),
             });
 
             return true;

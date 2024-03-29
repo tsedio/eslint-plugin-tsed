@@ -3,7 +3,7 @@ import {typedTokenHelpers} from "./typedTokenHelpers";
 
 export interface DecoratorsStatus<Decorators> {
   hasSchemaDecorator: boolean;
-  decorators: Map<Decorators, number>;
+  decorators: Map<Decorators, TSESTree.Decorator[]>;
 }
 
 export function getDecoratorsStatus<Decorators extends string = string>(
@@ -12,7 +12,7 @@ export function getDecoratorsStatus<Decorators extends string = string>(
 ): DecoratorsStatus<Decorators> {
   const options = {
     hasSchemaDecorator: false,
-    decorators: new Map<Decorators, number>(),
+    decorators: new Map<Decorators, TSESTree.Decorator[]>(),
   };
 
   const program = typedTokenHelpers.getRootProgram(propertyDefinition);
@@ -39,7 +39,7 @@ export function getDecoratorsStatus<Decorators extends string = string>(
 
       decorators.forEach((name) => {
         if (name === decoratorName) {
-          options.decorators.set(name, (options.decorators.get(name) || 0) + 1);
+          options.decorators.set(name, (options.decorators.get(name) || []).concat(decorator));
         }
       });
 

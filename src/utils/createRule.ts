@@ -1,5 +1,5 @@
 import {ESLintUtils, TSESLint, TSESTree} from "@typescript-eslint/utils";
-import {RuleContext, RuleFix} from "@typescript-eslint/utils/ts-eslint";
+import {RuleFix} from "@typescript-eslint/utils/ts-eslint";
 import {DecoratorsStatus} from "./getDecoratorsStatus.js";
 
 export interface RuleOptions<RULES extends string, DecoratorsStatus> {
@@ -7,7 +7,7 @@ export interface RuleOptions<RULES extends string, DecoratorsStatus> {
   message: string;
 
   test(opts: DecoratorsStatus): boolean;
-  fix?(fixer: TSESLint.RuleFixer, node: TSESTree.PropertyDefinition, context: Readonly<RuleContext<RULES, []>>): IterableIterator<RuleFix> | RuleFix | readonly RuleFix[] | null;
+  fix?(fixer: TSESLint.RuleFixer, node: TSESTree.PropertyDefinition, decoratorsStatus: DecoratorsStatus): IterableIterator<RuleFix> | RuleFix | readonly RuleFix[] | null;
 }
 
 export const createRule = ESLintUtils.RuleCreator(
