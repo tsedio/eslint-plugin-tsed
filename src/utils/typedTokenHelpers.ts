@@ -1,4 +1,5 @@
 import {TSESTree} from "@typescript-eslint/utils";
+import {getRootProgram} from "./getRootProgram";
 
 export const typedTokenHelpers = {
   /**
@@ -63,19 +64,7 @@ export const typedTokenHelpers = {
    * Gets the root program of a node
    * @param node
    */
-  getRootProgram(node: TSESTree.BaseNode): TSESTree.Program | null {
-    let root = node;
-
-    while (root.parent) {
-      if (root.parent.type === TSESTree.AST_NODE_TYPES.Program) {
-        return root.parent;
-      }
-
-      root = root.parent;
-    }
-
-    return null;
-  },
+  getRootProgram,
   /**
    * Gets all the decorators actually imported from @tsed/schema lib or decorators that were included in the additionalCustomValidatorDecorators options
    * @param node PropertyDefinition node

@@ -3,6 +3,7 @@ import {createMessages, createRule, RuleOptions} from "../../utils/createRule";
 import {RuleContext, RuleRecommendation} from "@typescript-eslint/utils/ts-eslint";
 import {DecoratorsStatus, getDecoratorsStatus} from "../../utils/getDecoratorsStatus";
 import {getWhiteSpaces} from "../../utils/getWhiteSpaces";
+import {addImportSpecifierIfNotExists} from "../../utils/addImportSpecifierIfNotExists";
 
 type DECORATORS_TYPES = "Required" | "Optional" | "RequiredIf";
 const DECORATORS: DECORATORS_TYPES[] = ["Required", "Optional", "RequiredIf"];
@@ -71,6 +72,7 @@ const RULES_CHECK: RuleOptions<RULES, RequiredDecoratorsStatus>[] = [
       && !decorators.has("Optional")
       && !decorators.has("RequiredIf"),
     * fix(fixer, node, decoratorsStatus) {
+      yield* addImportSpecifierIfNotExists(node, fixer, "@tsed/schema", "Optional");
 
       const requiredDecorators = decoratorsStatus.decorators.get("Required");
 
@@ -94,6 +96,8 @@ const RULES_CHECK: RuleOptions<RULES, RequiredDecoratorsStatus>[] = [
       !isOptional
       && !decorators.has("Required"),
     * fix(fixer, node, decoratorsStatus) {
+      yield* addImportSpecifierIfNotExists(node, fixer, "@tsed/schema", "Required");
+
       const optionals = decoratorsStatus.decorators.get("Optional");
 
       if (optionals?.length) {

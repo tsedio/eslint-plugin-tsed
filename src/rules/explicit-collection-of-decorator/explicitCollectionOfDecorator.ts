@@ -5,6 +5,7 @@ import {RuleContext} from "@typescript-eslint/utils/ts-eslint";
 import {findPropertyDecorator} from "../../utils/findDecorator";
 import {getTypes} from "../../utils/getTypes";
 import {getWhiteSpaces} from "../../utils/getWhiteSpaces";
+import {addImportSpecifierIfNotExists} from "../../utils/addImportSpecifierIfNotExists";
 
 type RULES =
   | "missing-collection-of-decorator"
@@ -55,17 +56,21 @@ const RULES_CHECK: RuleOptions<RULES, CollectionOfDecoratorsStatus>[] = [
     message: "Property returning Array, Set or Map must set CollectionOf decorator",
     test: ({decorators, isCollection}) =>
       isCollection && !decorators.has("CollectionOf"),
-    fix(fixer, node) {
+    * fix(fixer, node) {
       const {itemType, collectionType} = getTypes(node);
 
       const propertyDecorator = findPropertyDecorator(node, "Property");
       const decoratorName = TYPES_TO_DECORATORS[collectionType as string];
 
+      yield* addImportSpecifierIfNotExists(node, fixer, "@tsed/schema", decoratorName!);
+
       if (propertyDecorator) {
-        return fixer.replaceText(propertyDecorator, `@${decoratorName}(${itemType})`);
+        yield fixer.replaceText(propertyDecorator, `@${decoratorName}(${itemType})`);
+        return
       }
 
-      return fixer.insertTextBefore(node, `@${decoratorName}(${itemType})\n${getWhiteSpaces(node)}`);
+      yield fixer.insertTextBefore(node, `@${decoratorName}(${itemType})\n${getWhiteSpaces(node)}`);
+      return
     },
   },
 ];
