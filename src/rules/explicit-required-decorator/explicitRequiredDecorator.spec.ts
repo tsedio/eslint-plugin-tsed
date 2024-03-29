@@ -125,8 +125,36 @@ describe("explicitRequiredDecorator", () => {
           }
         ],
         output: `
+            import { Optional, Required } from '@tsed/schema';
+            class A {
+              @Required()
+              b: string
+            }`
+      },
+      {
+        code: `
             import { Optional } from '@tsed/schema';
             class A {
+              @Optional()
+              a: string
+              
+              @Optional()
+              b: string
+            }`,
+        errors: [
+          {
+            messageId: "missing-required-decorator"
+          },
+          {
+            messageId: "missing-required-decorator"
+          }
+        ],
+        output: `
+            import { Optional, Required } from '@tsed/schema';
+            class A {
+              @Required()
+              a: string
+              
               @Required()
               b: string
             }`
@@ -144,7 +172,7 @@ describe("explicitRequiredDecorator", () => {
           }
         ],
         output: `
-            import { Property } from '@tsed/schema';
+            import { Property, Required } from '@tsed/schema';
             class A {
               @Required()
               @Property()
@@ -164,7 +192,7 @@ describe("explicitRequiredDecorator", () => {
           }
         ],
         output: `
-            import { Required } from '@tsed/schema';
+            import { Required, Optional } from '@tsed/schema';
             class A {
               @Optional()
               b?: string
@@ -183,7 +211,7 @@ describe("explicitRequiredDecorator", () => {
           }
         ],
         output: `
-            import { Property } from '@tsed/schema';
+            import { Property, Optional } from '@tsed/schema';
             class A {
               @Optional()
               @Property()

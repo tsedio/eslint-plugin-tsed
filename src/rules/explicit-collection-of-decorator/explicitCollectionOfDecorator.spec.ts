@@ -151,7 +151,7 @@ describe("explicitCollectionOfDecorator", () => {
           },
         ],
         output: `
-          import {Property} from "@tsed/schema";
+          import {Property, ArrayOf} from "@tsed/schema";
           class TestClass {
             @ArrayOf(String)
             thisIsAStringProp?: string[]
@@ -170,7 +170,7 @@ describe("explicitCollectionOfDecorator", () => {
           },
         ],
         output: `
-        import {MinItems} from "@tsed/schema";
+        import {MinItems, ArrayOf} from "@tsed/schema";
         export class TestClass {
           @ArrayOf(String)
           @MinItems(1)
@@ -190,7 +190,7 @@ describe("explicitCollectionOfDecorator", () => {
           },
         ],
         output: `
-        import {MinItems} from "@tsed/schema";
+        import {MinItems, CollectionOf} from "@tsed/schema";
         export class TestClass {
           @CollectionOf(String)
           @MinItems(1)
@@ -210,7 +210,7 @@ describe("explicitCollectionOfDecorator", () => {
           },
         ],
         output: `
-        import {MinItems} from "@tsed/schema";
+        import {MinItems, MapOf} from "@tsed/schema";
         export class TestClass {
           @MapOf(String)
           @MinItems(1)
