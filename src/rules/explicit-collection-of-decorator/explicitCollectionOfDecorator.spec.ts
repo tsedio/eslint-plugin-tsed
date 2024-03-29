@@ -1,15 +1,8 @@
 import {RuleTester} from "@typescript-eslint/rule-tester";
-import {getFixturesRootDirectory} from "../../testing/fixtureSetup";
 import {name, rule} from "./explicitCollectionOfDecorator";
 
-const tsRootDirectory = getFixturesRootDirectory();
 const ruleTester = new RuleTester({
-  parser: "@typescript-eslint/parser",
-  parserOptions: {
-    ecmaVersion: 2015,
-    tsconfigRootDir: tsRootDirectory,
-    project: "./tsconfig.json",
-  },
+  parser: "@typescript-eslint/parser"
 });
 
 describe("explicitCollectionOfDecorator", () => {

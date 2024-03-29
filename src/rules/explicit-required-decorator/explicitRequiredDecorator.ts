@@ -1,7 +1,5 @@
-import {ESLintUtils, ParserServicesWithTypeInformation, TSESTree} from "@typescript-eslint/utils";
-import {isNullableType} from "@typescript-eslint/type-utils";
+import {TSESTree} from "@typescript-eslint/utils";
 import {createMessages, createRule, RuleOptions} from "../../utils/createRule";
-import {Type, TypeChecker} from "typescript";
 import {RuleContext, RuleRecommendation} from "@typescript-eslint/utils/ts-eslint";
 import {DecoratorsStatus, getDecoratorsStatus} from "../../utils/getDecoratorsStatus";
 
@@ -24,18 +22,18 @@ const RULES_CHECK: RuleOptions<RULES, RequiredDecoratorsStatus>[] = [
     messageId: "conflicting-defined-decorators-all",
     message: "Properties can have one of @Required() or @Optional() or @RequiredIf()",
     test: ({
-             decorators,
+             decorators
            }) =>
       decorators.has("Required")
       && decorators.has("Optional")
-      && decorators.has("RequiredIf"),
+      && decorators.has("RequiredIf")
   },
   {
     messageId: "conflicting-defined-decorators-defined-optional",
     message: "Properties can have @Required() or @Optional() but not both",
     test: ({decorators}) =>
       decorators.has("Required")
-      && decorators.has("Optional"),
+      && decorators.has("Optional")
   },
 
   {
@@ -43,7 +41,7 @@ const RULES_CHECK: RuleOptions<RULES, RequiredDecoratorsStatus>[] = [
     message: "Properties can have @Required() or @RequiredIf() but not both",
     test: ({decorators}) =>
       decorators.has("Required")
-      && decorators.has("RequiredIf"),
+      && decorators.has("RequiredIf")
   },
 
   {
@@ -52,7 +50,7 @@ const RULES_CHECK: RuleOptions<RULES, RequiredDecoratorsStatus>[] = [
     test:
       ({decorators}) =>
         decorators.has("Optional")
-        && decorators.has("RequiredIf"),
+        && decorators.has("RequiredIf")
   },
   {
     messageId: "missing-is-optional-decorator",
@@ -61,32 +59,19 @@ const RULES_CHECK: RuleOptions<RULES, RequiredDecoratorsStatus>[] = [
     test: ({decorators, isOptional}) =>
       isOptional
       && !decorators.has("Optional")
-      && !decorators.has("RequiredIf"),
+      && !decorators.has("RequiredIf")
   },
   {
     messageId: "missing-is-defined-decorator",
     message: "Non-optional properties must have a decorator that checks the value is defined (for example: @Required())",
     test: ({decorators, isOptional}) =>
       !isOptional
-      && !decorators.has("Required"),
-  },
+      && !decorators.has("Required")
+  }
 ];
-
-function getType(
-  typeNode: TSESTree.Node,
-  service: ParserServicesWithTypeInformation,
-  checker: TypeChecker,
-): Type {
-  const tsNode = service.esTreeNodeToTSNodeMap.get(typeNode);
-
-  return checker.getTypeAtLocation(tsNode);
-}
 
 
 function create(context: Readonly<RuleContext<RULES, []>>) {
-  const service = ESLintUtils.getParserServices(context);
-  const checker = service.program.getTypeChecker();
-
   return {
     // eslint-disable-next-line @typescript-eslint/naming-convention
     PropertyDefinition(node: TSESTree.PropertyDefinition) {
@@ -100,21 +85,14 @@ function create(context: Readonly<RuleContext<RULES, []>>) {
         return;
       }
 
-      const type = getType(
-        node.typeAnnotation!.typeAnnotation,
-        service,
-        checker,
-      );
-
-      decoratorsStatus.isOptional = Boolean(node.optional ||
-        isNullableType(type));
+      decoratorsStatus.isOptional = Boolean(node.optional)
 
       RULES_CHECK
         .some(({messageId, test}) => {
           if (test(decoratorsStatus)) {
             context.report({
               node: node,
-              messageId,
+              messageId
             });
 
             return true;
@@ -122,7 +100,7 @@ function create(context: Readonly<RuleContext<RULES, []>>) {
 
           return false;
         });
-    },
+    }
   };
 }
 
@@ -134,12 +112,12 @@ export const rule = createRule<[], RULES>({
       description:
         "Enforce all properties have an explicit defined status decorator",
       recommended: "error" as RuleRecommendation,
-      requiresTypeChecking: true,
+      requiresTypeChecking: true
     },
     messages: createMessages<RULES>(RULES_CHECK),
     type: "problem",
-    schema: [],
+    schema: []
   },
   defaultOptions: [],
-  create,
+  create
 });

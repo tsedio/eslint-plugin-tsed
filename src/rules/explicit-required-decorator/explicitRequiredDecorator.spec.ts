@@ -1,15 +1,8 @@
 import {RuleTester} from "@typescript-eslint/rule-tester";
-import {getFixturesRootDirectory} from "../../testing/fixtureSetup";
 import {name, rule} from "./explicitRequiredDecorator";
 
-const tsRootDirectory = getFixturesRootDirectory();
 const ruleTester = new RuleTester({
-  parser: "@typescript-eslint/parser",
-  parserOptions: {
-    ecmaVersion: 2015,
-    tsconfigRootDir: tsRootDirectory,
-    project: "./tsconfig.json",
-  },
+  parser: "@typescript-eslint/parser"
 });
 
 describe("explicitRequiredDecorator", () => {
@@ -21,7 +14,7 @@ class A {
   @A
   b: string
 }
-        `,
+        `
       },
       {
         code: `
@@ -29,14 +22,14 @@ class A {
   @A()
   b: string
 }
-        `,
+        `
       },
       {
         code: `
 class A {
   b: string
 }
-    `,
+    `
       },
       {
         code: `
@@ -48,7 +41,7 @@ class A {
   @Required()
   c: string
 }
-    `,
+    `
       },
       {
         code: `
@@ -61,7 +54,7 @@ class A {
   @Required()
   c: string
 }
-    `,
+    `
       },
       {
         code: `
@@ -74,7 +67,7 @@ class A {
   @Required()
   c: string
 }
-    `,
+    `
       },
       {
         code: `
@@ -88,7 +81,7 @@ class A {
   @Optional()
   c?: string
 }
-    `,
+    `
       },
 
       {
@@ -103,7 +96,7 @@ class A {
   @Property()
   c?: string
 }
-    `,
+    `
       },
       {
         code: `
@@ -114,7 +107,7 @@ class A {
 
   c?: string
 }
-    `,
+    `
       },
       {
         code: `
@@ -125,8 +118,8 @@ class A {
 
   c: string
 }
-    `,
-      },
+    `
+      }
     ],
     invalid: [
       {
@@ -139,9 +132,9 @@ class A {
     `,
         errors: [
           {
-            messageId: "missing-is-defined-decorator",
-          },
-        ],
+            messageId: "missing-is-defined-decorator"
+          }
+        ]
       },
       {
         code: `
@@ -153,9 +146,9 @@ class A {
     `,
         errors: [
           {
-            messageId: "missing-is-optional-decorator",
-          },
-        ],
+            messageId: "missing-is-optional-decorator"
+          }
+        ]
       },
       {
         code: `
@@ -167,9 +160,9 @@ class A {
     `,
         errors: [
           {
-            messageId: "missing-is-optional-decorator",
-          },
-        ],
+            messageId: "missing-is-optional-decorator"
+          }
+        ]
       },
       {
         code: `
@@ -183,9 +176,9 @@ class A {
         errors: [
           {
             messageId:
-              "conflicting-defined-decorators-defined-optional",
-          },
-        ],
+              "conflicting-defined-decorators-defined-optional"
+          }
+        ]
       },
       {
         code: `
@@ -199,9 +192,9 @@ class A {
         errors: [
           {
             messageId:
-              "conflicting-defined-decorators-defined-required-if",
-          },
-        ],
+              "conflicting-defined-decorators-defined-required-if"
+          }
+        ]
       },
       {
         code: `
@@ -215,9 +208,9 @@ class A {
         errors: [
           {
             messageId:
-              "conflicting-defined-decorators-optional-required-if",
-          },
-        ],
+              "conflicting-defined-decorators-optional-required-if"
+          }
+        ]
       },
       {
         code: `
@@ -231,10 +224,10 @@ class A {
     `,
         errors: [
           {
-            messageId: "conflicting-defined-decorators-all",
-          },
-        ],
-      },
-    ],
+            messageId: "conflicting-defined-decorators-all"
+          }
+        ]
+      }
+    ]
   });
 });
