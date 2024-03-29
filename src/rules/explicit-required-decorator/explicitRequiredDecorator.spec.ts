@@ -287,5 +287,5 @@ describe("explicitRequiredDecorator", () => {
         ]
       }
     ]
-  });
+  })
 });

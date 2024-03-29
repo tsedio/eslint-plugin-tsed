@@ -9,13 +9,11 @@
 [![Build & Release](https://github.com/tsedio/tsed/workflows/Build%20&%20Release/badge.svg)](https://github.com/tsedio/tsed-eslint-plugin/actions?query=workflow%3A%22Build+%26+Release%22)
 [![PR Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/tsedio/tsed-eslint-plugin/blob/main/CONTRIBUTING.md)
 [![npm version](https://badge.fury.io/js/%40tsed%2Fcommon.svg)](https://badge.fury.io/js/%40tsed%2Feslint-plugin)
-![npm-tag](https://badgen.net/github/tag/tsedio/eslint-plugin)
+![npm-tag](https://badgen.net/github/tag/tsedio/eslint-plugin-tsed)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 [![github](https://img.shields.io/static/v1?label=Github%20sponsor&message=%E2%9D%A4&logo=GitHub&color=%23fe8e86)](https://github.com/sponsors/romakita)
 [![opencollective](https://img.shields.io/static/v1?label=OpenCollective%20sponsor&message=%E2%9D%A4&logo=OpenCollective&color=%23fe8e86)](https://opencollective.com/tsed)
-![commit](https://badgen.net/github/last-commit/@tsed/eslint-plugin/main)
-![size](https://badgen.net/bundlephobia/minzip/@tsed/eslint-plugin?color=cyan)
 
 </div>
 
@@ -51,11 +49,12 @@ Awesome! [Click here](https://github.com/darraghoriordan/eslint-plugin-nestjs-ty
 
 ## Index of available rules
 
-| Category        | Rule                                                                              | Auto-fix | is on in recommended ruleset? |
-|-----------------|-----------------------------------------------------------------------------------|----------|-------------------------------|
-| Preventing Bugs | [`explicit-required-decorator`](./docs/rules/explicit-required-decorator.md)      | ✅        | ✅                             |
-|                 | [`explicit-collection-of-decorator`](./docs/rules/explicit-required-decorator.md) | ✅        | ✅                             |
-|                 | [`no-duplicate-decorators`](./docs/rules/explicit-required-decorator.md)          | ✅        | ✅                             |
+| Category         | Rule                                                                              | Auto-fix | is on in recommended ruleset? |
+|------------------|-----------------------------------------------------------------------------------|----------|-------------------------------|
+| Preventing Bugs  | [`explicit-required-decorator`](./docs/rules/explicit-required-decorator.md)      | ✅        | ✅                             |
+|                  | [`explicit-collection-of-decorator`](./docs/rules/explicit-required-decorator.md) | ✅        | ✅                             |
+|                  | [`no-duplicate-decorators`](./docs/rules/explicit-required-decorator.md)          | ✅        | ✅                             |
+| Code Consistency | [`unused-imported-specifier`](./docs/rules/unused-imported-specifier.md)        | ✅        | ✅                             |
 
 The "recommended" ruleset are the default rules that are turned on when you configure the plugin as described in this document.
 

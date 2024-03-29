@@ -1,7 +1,7 @@
 import {getRootProgram} from "./getRootProgram";
 import {TSESTree} from "@typescript-eslint/utils";
 
-export function getImportDeclarations(node: TSESTree.BaseNode) {
+export function getImportDeclarations(node: TSESTree.BaseNode | TSESTree.Program) {
   const rootProgram = getRootProgram(node);
 
   if (rootProgram) {
@@ -13,7 +13,7 @@ export function getImportDeclarations(node: TSESTree.BaseNode) {
   return [];
 }
 
-export function getImportDeclaration(node: TSESTree.BaseNode, pkg: string) {
+export function getImportDeclaration(node: TSESTree.BaseNode | TSESTree.Program, pkg: string) {
   return getImportDeclarations(node).find((importStatement) => {
     return importStatement.source.value === pkg;
   });

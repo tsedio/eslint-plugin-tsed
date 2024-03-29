@@ -1,7 +1,6 @@
 import {AST_NODE_TYPES, TSESTree} from "@typescript-eslint/utils";
 import {typedTokenHelpers} from "./typedTokenHelpers";
 
-type Packages = "@tsed/schema";
 export interface DecoratorsStatus<Decorators> {
   hasSchemaDecorator: boolean;
   decorators: Map<Decorators, TSESTree.Decorator[]>;
@@ -9,12 +8,11 @@ export interface DecoratorsStatus<Decorators> {
 
 export function getDecoratorsStatus<Decorators extends string = string>(
   propertyDefinition: TSESTree.PropertyDefinition,
-  decorators: Decorators[],
+  decorators: Decorators[]
 ): DecoratorsStatus<Decorators> {
   const options = {
     hasSchemaDecorator: false,
-    decorators: new Map<Decorators, TSESTree.Decorator[]>(),
-    imports: new Map<Packages, any>()
+    decorators: new Map<Decorators, TSESTree.Decorator[]>()
   };
 
   if (!propertyDefinition.decorators) {
@@ -24,7 +22,6 @@ export function getDecoratorsStatus<Decorators extends string = string>(
   const program = typedTokenHelpers.getRootProgram(propertyDefinition);
 
 
-
   return propertyDefinition.decorators
     .reduce((options, decorator) => {
       if (!(
@@ -32,7 +29,7 @@ export function getDecoratorsStatus<Decorators extends string = string>(
         && decorator.expression.callee.type === AST_NODE_TYPES.Identifier
         && typedTokenHelpers.decoratorIsTsEDSchemaDecorator(
           program,
-          decorator,
+          decorator
         ))) {
 
         return options;
