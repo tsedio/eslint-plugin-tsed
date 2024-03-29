@@ -51,11 +51,11 @@ Awesome! [Click here](https://github.com/darraghoriordan/eslint-plugin-nestjs-ty
 
 ## Index of available rules
 
-| Category        | Rule                                                                              | is on in recommended ruleset? |
-|-----------------|-----------------------------------------------------------------------------------|-------------------------------|
-| Preventing Bugs | [`explicit-required-decorator`](./docs/rules/explicit-required-decorator.md)      | ✅                             |
-|                 | [`explicit-collection-of-decorator`](./docs/rules/explicit-required-decorator.md) | ✅                             |
-|                 | [`no-duplicate-decorators`](./docs/rules/explicit-required-decorator.md)          | ✅                             |
+| Category        | Rule                                                                              | Auto-fix | is on in recommended ruleset? |
+|-----------------|-----------------------------------------------------------------------------------|----------|-------------------------------|
+| Preventing Bugs | [`explicit-required-decorator`](./docs/rules/explicit-required-decorator.md)      | ✅        | ✅                             |
+|                 | [`explicit-collection-of-decorator`](./docs/rules/explicit-required-decorator.md) | ✅        | ✅                             |
+|                 | [`no-duplicate-decorators`](./docs/rules/explicit-required-decorator.md)          | ✅        | ✅                             |
 
 The "recommended" ruleset are the default rules that are turned on when you configure the plugin as described in this document.
 
