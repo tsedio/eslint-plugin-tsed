@@ -3,7 +3,7 @@ import {createMessages, createRule, RuleOptions} from "../../utils/createRule";
 import {RuleContext, RuleRecommendation} from "@typescript-eslint/utils/ts-eslint";
 import {DecoratorsStatus, getDecoratorsStatus} from "../../utils/getDecoratorsStatus";
 import {getWhiteSpaces} from "../../utils/getWhiteSpaces";
-import {addImportSpecifierIfNotExists} from "../../utils/addImportSpecifierIfNotExists";
+import {addImportSpecifier} from "../../utils/addImportSpecifier";
 
 type DECORATORS_TYPES = "Required" | "Optional" | "RequiredIf";
 const DECORATORS: DECORATORS_TYPES[] = ["Required", "Optional", "RequiredIf"];
@@ -36,15 +36,16 @@ const RULES_CHECK: RuleOptions<RULES, RequiredDecoratorsStatus>[] = [
     test: ({decorators}) =>
       decorators.has("Required")
       && decorators.has("Optional"),
-    * fix(fixer, node, decoratorsStatus) {
+    fix({fixer, decoratorsStatus}) {
+      const toBeRemoved = decoratorsStatus.isOptional ? "Required" : "Optional";
       const decorators = decoratorsStatus.decorators
-        .get(decoratorsStatus.isOptional ? "Required" : "Optional");
+        .get(toBeRemoved);
 
       if (decorators) {
-        for (const decorator of decorators) {
-          yield fixer.remove(decorator);
-        }
+        return fixer.remove(decorators[0]);
       }
+
+      return null;
     }
   },
 
@@ -71,21 +72,18 @@ const RULES_CHECK: RuleOptions<RULES, RequiredDecoratorsStatus>[] = [
       isOptional
       && !decorators.has("Optional")
       && !decorators.has("RequiredIf"),
-    * fix(fixer, node, decoratorsStatus) {
-      yield* addImportSpecifierIfNotExists(node, fixer, "@tsed/schema", "Optional");
+    * fix({fixer, node, decoratorsStatus}) {
+      yield* addImportSpecifier(node, fixer, "@tsed/schema", "Optional");
 
-      const requiredDecorators = decoratorsStatus.decorators.get("Required");
+      const decorators = decoratorsStatus.decorators.get("Required");
 
-      if (requiredDecorators?.length) {
-        for (const decorator of requiredDecorators) {
-          yield fixer.remove(decorator);
-        }
-
-        yield fixer.insertTextBefore(node, "@Optional()");
+      if (decorators?.length) {
+        yield fixer.replaceText(decorators[0], "@Optional()");
         return;
       }
 
       const whitespace = getWhiteSpaces(node);
+
       yield fixer.insertTextBefore(node, "@Optional()\n" + whitespace);
     }
   },
@@ -95,18 +93,14 @@ const RULES_CHECK: RuleOptions<RULES, RequiredDecoratorsStatus>[] = [
     test: ({decorators, isOptional}) =>
       !isOptional
       && !decorators.has("Required"),
-    * fix(fixer, node, decoratorsStatus) {
-      yield* addImportSpecifierIfNotExists(node, fixer, "@tsed/schema", "Required");
+    * fix({fixer, node, decoratorsStatus}) {
+      yield* addImportSpecifier(node, fixer, "@tsed/schema", "Required");
 
-      const optionals = decoratorsStatus.decorators.get("Optional");
+      const decorators = decoratorsStatus.decorators.get("Optional");
 
-      if (optionals?.length) {
-        for (const decorator of optionals) {
-          yield fixer.remove(decorator);
-        }
-
-        yield fixer.insertTextBefore(node, "@Required()");
-        return;
+      if (decorators?.length) {
+        yield fixer.replaceText(decorators[0], "@Required()");
+        return
       }
 
       const whitespace = getWhiteSpaces(node);
@@ -138,9 +132,8 @@ function create(context: Readonly<RuleContext<RULES, []>>) {
             context.report({
               node: node,
               messageId,
-              fix: fix && ((fixer) => fix(fixer, node, decoratorsStatus))
+              fix: fix && ((fixer) => fix({fixer, node, decoratorsStatus}))
             });
-
             return true;
           }
 

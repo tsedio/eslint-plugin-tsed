@@ -5,7 +5,7 @@ import {RuleContext} from "@typescript-eslint/utils/ts-eslint";
 import {findPropertyDecorator} from "../../utils/findDecorator";
 import {getTypes} from "../../utils/getTypes";
 import {getWhiteSpaces} from "../../utils/getWhiteSpaces";
-import {addImportSpecifierIfNotExists} from "../../utils/addImportSpecifierIfNotExists";
+import {addImportSpecifier} from "../../utils/addImportSpecifier";
 
 type RULES =
   | "missing-collection-of-decorator"
@@ -18,8 +18,8 @@ const DECORATORS: DECORATORS_TYPES[] = ["Property", "CollectionOf", "MapOf", "Ar
 const TYPES_TO_DECORATORS: Record<string, DECORATORS_TYPES> = {
   Array: "ArrayOf",
   Set: "CollectionOf",
-  Map: "MapOf",
-}
+  Map: "MapOf"
+};
 
 interface CollectionOfDecoratorsStatus extends DecoratorsStatus<DECORATORS_TYPES> {
   isCollection: boolean;
@@ -33,11 +33,11 @@ const RULES_CHECK: RuleOptions<RULES, CollectionOfDecoratorsStatus>[] = [
       isCollection
       && decorators.has("Property")
       && (decorators.has("CollectionOf") || decorators.has("MapOf") || decorators.has("ArrayOf")),
-    fix(fixer, node) {
+    fix({fixer, node}) {
       const propertyDecorator = findPropertyDecorator(node, "Property");
 
       return propertyDecorator ? fixer.remove(propertyDecorator) : null;
-    },
+    }
   },
   {
     messageId: "unnecessary-collection-of-decorator",
@@ -45,34 +45,34 @@ const RULES_CHECK: RuleOptions<RULES, CollectionOfDecoratorsStatus>[] = [
     test: ({decorators, isCollection}) =>
       !isCollection
       && decorators.has("CollectionOf"),
-    fix(fixer, node) {
+    fix({fixer, node}) {
       const collectionOfDecorator = findPropertyDecorator(node, "CollectionOf");
 
       return collectionOfDecorator ? fixer.remove(collectionOfDecorator) : null;
-    },
+    }
   },
   {
     messageId: "missing-collection-of-decorator",
     message: "Property returning Array, Set or Map must set CollectionOf decorator",
     test: ({decorators, isCollection}) =>
       isCollection && !decorators.has("CollectionOf"),
-    * fix(fixer, node) {
+    * fix({fixer, node}) {
       const {itemType, collectionType} = getTypes(node);
 
       const propertyDecorator = findPropertyDecorator(node, "Property");
       const decoratorName = TYPES_TO_DECORATORS[collectionType as string];
 
-      yield* addImportSpecifierIfNotExists(node, fixer, "@tsed/schema", decoratorName!);
+      yield* addImportSpecifier(node, fixer, "@tsed/schema", decoratorName!);
 
       if (propertyDecorator) {
         yield fixer.replaceText(propertyDecorator, `@${decoratorName}(${itemType})`);
-        return
+        return;
       }
 
       yield fixer.insertTextBefore(node, `@${decoratorName}(${itemType})\n${getWhiteSpaces(node)}`);
-      return
-    },
-  },
+      return;
+    }
+  }
 ];
 
 function create(context: Readonly<RuleContext<RULES, []>>) {
@@ -91,7 +91,7 @@ function create(context: Readonly<RuleContext<RULES, []>>) {
 
       decoratorsStatus.isCollection = AST_NODE_TYPES.TSArrayType === node.typeAnnotation?.typeAnnotation?.type as AST_NODE_TYPES.TSArrayType
         || ["Array", "Map", "Set"].includes(
-          (node.typeAnnotation?.typeAnnotation as any | undefined)?.typeName?.name,
+          (node.typeAnnotation?.typeAnnotation as any | undefined)?.typeName?.name
         );
 
       RULES_CHECK
@@ -100,7 +100,7 @@ function create(context: Readonly<RuleContext<RULES, []>>) {
             context.report({
               node,
               messageId,
-              fix: fix && ((fixer) => fix(fixer, node, decoratorsStatus)),
+              fix: fix && ((fixer) => fix({fixer, node, decoratorsStatus}))
             });
 
             return true;
@@ -108,7 +108,7 @@ function create(context: Readonly<RuleContext<RULES, []>>) {
 
           return false;
         });
-    },
+    }
   };
 }
 
@@ -119,15 +119,15 @@ export const rule = createRule<[], RULES>({
     docs: {
       description: "Property returning array must set CollectionOf decorator",
 
-      requiresTypeChecking: false,
+      requiresTypeChecking: false
     },
     messages: createMessages<RULES>(RULES_CHECK),
     schema: [],
     hasSuggestions: false,
     type: "problem",
-    fixable: "code",
+    fixable: "code"
   },
   defaultOptions: [],
-  create,
+  create
 });
 
