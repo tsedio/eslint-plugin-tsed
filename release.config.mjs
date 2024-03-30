@@ -8,12 +8,12 @@ export default {
     [
       '@semantic-release/npm',
       {
-        //npmPublish: false
+        npmPublish: false
       }
     ],
     '@semantic-release/github',
     [
-      '@semantic-release/github',
+      '@semantic-release/git',
       {
         assets: [
           'package.json',
@@ -22,6 +22,7 @@ export default {
         'message': 'chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}'
       }
     ],
+
     [
       'semantic-release-slack-bot',
       {
