@@ -5,7 +5,7 @@ const ruleTester = new RuleTester({
   parser: "@typescript-eslint/parser"
 });
 
-describe("missingImportSpecifiers", () => {
+describe("unusedImportedSpecifier", () => {
   ruleTester.run(name, rule, {
     valid: [
       {

@@ -29,13 +29,13 @@ export const rule = createRule<[], RULES>({
         const program = context.sourceCode.ast;
         const imports = getImportDeclarations(program);
 
-        const isUsed = program.tokens.reduce((isUsed, token, currentIndex) => {
-          if (token.type === "Identifier" && program.tokens[currentIndex + 1].type === "Punctuator" && program.tokens[currentIndex - 1].value === "@") {
-            isUsed.add(token.value);
+        const tokens = program.tokens.reduce((isUsed, token, currentIndex) => {
+          if (token.type === "Identifier") {
+            isUsed.set(token.value, (isUsed.get(token.value) || 0) + 1);
           }
 
           return isUsed;
-        }, new Set());
+        }, new Map());
 
         imports
           .filter((importDeclaration) => {
@@ -43,7 +43,7 @@ export const rule = createRule<[], RULES>({
           })
           .map((importDeclaration) => {
             importDeclaration.specifiers.forEach((specifier, index, specifiers) => {
-              if (!isUsed.has(specifier.local.name)) {
+              if (tokens.get(specifier.local.name) === 1) {
                 context.report({
                   node: specifier,
                   messageId: "unused-imported-specifier",
