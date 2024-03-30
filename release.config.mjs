@@ -1,7 +1,7 @@
 process.env.SEMANTIC_RELEASE_PACKAGE = 'Eslint plugin Ts.ED'
 
 export default {
-  branch: 'main',
+  branches: ['main'],
   plugins: [
     '@semantic-release/commit-analyzer',
     '@semantic-release/release-notes-generator',

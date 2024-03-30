@@ -1,6 +1,6 @@
 {
   "name": "@tsed/eslint-plugin",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Eslint rules for Ts.ED projects",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -20,11 +20,6 @@
     "prepare": "is-ci || husky",
     "release": "semantic-release",
     "release:dryRun": "semantic-release --dry-run"
-  },
-  "release": {
-    "branches": [
-      "main"
-    ]
   },
   "homepage": "https://github.com/tsedio/eslint-plugin-tsed",
   "repository": {
@@ -68,6 +63,7 @@
     "prettier": "3.2.5",
     "rimraf": "^5.0.5",
     "semantic-release": "^23.0.6",
+    "semantic-release-slack-bot": "^4.0.2",
     "ts-jest": "29.1.2",
     "ts-node": "10.9.2",
     "typescript": "5.4.3"
