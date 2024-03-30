@@ -17,7 +17,8 @@ export default {
       {
         assets: [
           'package.json',
-          'yarn.lock'
+          'yarn.lock',
+          'CHANGELOG.md'
         ],
         'message': 'chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}'
       }

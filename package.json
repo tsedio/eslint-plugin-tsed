@@ -92,7 +92,6 @@
   },
   "packageManager": "yarn@4.1.1",
   "publishConfig": {
-    "provenance": false,
     "access": "public",
     "tag": "latest"
   }
