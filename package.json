@@ -1,6 +1,6 @@
 {
   "name": "@tsed/eslint-plugin",
-  "version": "1.1.9",
+  "version": "1.1.10",
   "description": "Eslint rules for Ts.ED projects",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
