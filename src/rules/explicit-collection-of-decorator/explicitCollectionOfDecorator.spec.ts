@@ -121,6 +121,27 @@ describe("explicitCollectionOfDecorator", () => {
       },
       {
         code: `
+          import {MapOf, Property} from "@tsed/schema";
+          class TestClass {
+            @MapOf(String)
+            @Property()
+            thisIsAStringProp?: Map<string, string>;
+          }`,
+        errors: [
+          {
+            messageId: "unnecessary-property-of-decorator",
+          },
+        ],
+        output: `
+          import {MapOf, Property} from "@tsed/schema";
+          class TestClass {
+            @MapOf(String)
+            
+            thisIsAStringProp?: Map<string, string>;
+          }`
+      },
+      {
+        code: `
           import {CollectionOf} from "@tsed/schema";
           class TestClass {
              @CollectionOf(String)
@@ -133,6 +154,44 @@ describe("explicitCollectionOfDecorator", () => {
         ],
         output: `
           import {CollectionOf} from "@tsed/schema";
+          class TestClass {
+             
+             thisIsAStringProp?: string;
+          }`,
+      },
+      {
+        code: `
+          import {MapOf} from "@tsed/schema";
+          class TestClass {
+             @MapOf(String)
+             thisIsAStringProp?: string;
+          }`,
+        errors: [
+          {
+            messageId: "unnecessary-map-of-decorator",
+          },
+        ],
+        output: `
+          import {MapOf} from "@tsed/schema";
+          class TestClass {
+             
+             thisIsAStringProp?: string;
+          }`,
+      },
+      {
+        code: `
+          import {ArrayOf} from "@tsed/schema";
+          class TestClass {
+             @ArrayOf(String)
+             thisIsAStringProp?: string;
+          }`,
+        errors: [
+          {
+            messageId: "unnecessary-array-of-decorator",
+          },
+        ],
+        output: `
+          import {ArrayOf} from "@tsed/schema";
           class TestClass {
              
              thisIsAStringProp?: string;
@@ -154,6 +213,7 @@ describe("explicitCollectionOfDecorator", () => {
           import {Property, ArrayOf} from "@tsed/schema";
           class TestClass {
             @ArrayOf(String)
+            @Property()
             thisIsAStringProp?: string[]
           }`
       },
@@ -216,6 +276,26 @@ describe("explicitCollectionOfDecorator", () => {
           @MinItems(1)
           thisIsAStringProp?: Map<string, string>;
         }`,
+      },
+      {
+        code: `
+          import {MapOf} from "@tsed/schema";
+          class TestClass {
+            @MapOf(String)
+            thisIsAStringProp?: string[];
+          }`,
+        errors: [
+          {
+            messageId: "unexpected-map-of-decorator",
+          },
+        ],
+        output: `
+          import {MapOf, ArrayOf} from "@tsed/schema";
+          class TestClass {
+            @ArrayOf(String)
+            
+            thisIsAStringProp?: string[];
+          }`
       },
     ],
   });
