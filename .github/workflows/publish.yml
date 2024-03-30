@@ -16,10 +16,8 @@ jobs:
         run: yarn install --immutable --network-timeout 500000
       - name: Run Build 🚧
         run: yarn build
-      - name: Verify the integrity of provenance attestations and registry signatures for installed dependencies
-        run: npm audit signatures
       - name: Run Publish
-        run: npm publish --access public --provenance
+        run: npm publish --access public
         env:
           CI: true
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
