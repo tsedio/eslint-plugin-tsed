@@ -8,7 +8,8 @@ export function getTypes(
 ) {
 
   const collectionType = (node.typeAnnotation as any)?.typeAnnotation?.typeName?.name;
-  const itemType = extractType((node.typeAnnotation?.typeAnnotation as any )?.elementType?.type) ;
+  const elementType = (node.typeAnnotation?.typeAnnotation as any )?.elementType
+  const itemType = elementType?.typeName?.name || extractType(elementType?.type) ;
 
   if (!itemType) {
     if (["Map", "Set"].includes(collectionType)) {

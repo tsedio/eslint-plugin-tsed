@@ -15,8 +15,8 @@ type RULES =
   | "unnecessary-collection-of-decorator"
   | "unexpected-map-of-decorator";
 
-type DECORATORS_TYPES = "Property" | "CollectionOf" | "MapOf" | "ArrayOf";
-const DECORATORS: DECORATORS_TYPES[] = ["Property", "CollectionOf", "MapOf", "ArrayOf"];
+type DECORATORS_TYPES = "Property" | "CollectionOf" | "MapOf" | "ArrayOf" | "Enum";
+const DECORATORS: DECORATORS_TYPES[] = ["Property", "CollectionOf", "MapOf", "ArrayOf", "Enum"];
 
 const TYPES_TO_DECORATORS: Record<string, DECORATORS_TYPES> = {
   Array: "ArrayOf",
@@ -50,8 +50,8 @@ const RULES_CHECK: RuleOptions<RULES, CollectionOfDecoratorsStatus>[] = [
     messageId: "missing-collection-of-decorator",
     message: "Property returning Array, Set or Map must set CollectionOf decorator",
     test: ({decorators, isCollection}) =>
-      isCollection && !(decorators.has("CollectionOf") || decorators.has("MapOf") || decorators.has("ArrayOf")),
-    * fix({fixer, node}) {
+      isCollection && !(decorators.has("CollectionOf") || decorators.has("MapOf") || decorators.has("ArrayOf") || decorators.has("Enum")),
+    * fix({fixer, node, decoratorsStatus}) {
       const {itemType, collectionType} = getTypes(node);
       const decoratorName = TYPES_TO_DECORATORS[collectionType as string];
 
@@ -75,8 +75,8 @@ const RULES_CHECK: RuleOptions<RULES, CollectionOfDecoratorsStatus>[] = [
     messageId: "unnecessary-array-of-decorator",
     message: "Unnecessary ArrayOf decorator over a Property not returning Array",
     test: ({decorators, isCollection}) =>
-      !isCollection
-      && decorators.has("ArrayOf"),
+      decorators.has("ArrayOf") &&
+      (!isCollection || (isCollection && decorators.has("Enum"))),
     fix({fixer, node}) {
       const collectionOfDecorator = findPropertyDecorator(node, "ArrayOf");
 
