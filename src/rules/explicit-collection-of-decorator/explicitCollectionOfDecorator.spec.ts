@@ -53,7 +53,21 @@ describe("explicitCollectionOfDecorator", () => {
           @Property()
           thisIsABooleanProp = false
         }`,
-      }
+      },
+      {
+        code: `
+        import {Default, Enum} from "@tsed/schema";
+        
+        enum GrantTypes {
+          AUTHORIZATION_CODE = "authorization_code"
+        }
+        
+        class TestClass {
+          @Default(GrantTypes.AUTHORIZATION_CODE)
+          @Enum(GrantTypes)
+          grantTypes: GrantTypes[] = [GrantTypes.AUTHORIZATION_CODE]
+        }`
+      },
     ],
     invalid: [
       {
@@ -296,6 +310,61 @@ describe("explicitCollectionOfDecorator", () => {
             
             thisIsAStringProp?: string[];
           }`
+      },
+      {
+        code: `
+          import {Default} from "@tsed/schema";
+          class Nested {}
+          class TestClass {
+            @Default([])
+            thisIsAStringProp?: Nested[] = [];
+          }`,
+        errors: [
+          {
+            messageId: "missing-collection-of-decorator",
+          },
+        ],
+        output: `
+          import {Default, ArrayOf} from "@tsed/schema";
+          class Nested {}
+          class TestClass {
+            @ArrayOf(Nested)
+            @Default([])
+            thisIsAStringProp?: Nested[] = [];
+          }`
+      },
+      {
+        code: `
+        import {Default, Enum, ArrayOf} from "@tsed/schema";
+        
+        enum GrantTypes {
+          AUTHORIZATION_CODE = "authorization_code"
+        }
+        
+        class TestClass {
+          @Default(GrantTypes.AUTHORIZATION_CODE)
+          @Enum(GrantTypes)
+          @ArrayOf(GrantTypes)
+          grantTypes: GrantTypes[] = [GrantTypes.AUTHORIZATION_CODE]
+        }`,
+        errors: [
+          {
+            messageId: "unnecessary-array-of-decorator",
+          },
+        ],
+        output: `
+        import {Default, Enum, ArrayOf} from "@tsed/schema";
+        
+        enum GrantTypes {
+          AUTHORIZATION_CODE = "authorization_code"
+        }
+        
+        class TestClass {
+          @Default(GrantTypes.AUTHORIZATION_CODE)
+          @Enum(GrantTypes)
+          
+          grantTypes: GrantTypes[] = [GrantTypes.AUTHORIZATION_CODE]
+        }`,
       },
     ],
   });
